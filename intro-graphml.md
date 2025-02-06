@@ -7,8 +7,6 @@ authors:
 
 # Introduction to Graph Machine Learning
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 In this blog post, we cover the basics of graph machine learning. 
 
@@ -177,7 +175,7 @@ A bit different, [*Recipe for a General, Powerful, Scalable Graph Transformer*](
 
 Using transformers for graphs is still very much a field in its infancy, but it looks promising, as it could alleviate several limitations of GNNs, such as scaling to larger/denser graphs, or increasing model size without oversmoothing.
 
-# Further resources
+## Further resources
 
 If you want to delve deeper, you can look at some of these courses:
 
