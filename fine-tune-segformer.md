@@ -2,19 +2,17 @@
 title: Fine-Tune a Semantic Segmentation Model with a Custom Dataset
 thumbnail: /blog/assets/56_fine_tune_segformer/thumb.png
 authors:
-- user: segments-tobias
+- user: tobiasc
   guest: true
 - user: nielsr
 ---
 
 # Fine-Tune a Semantic Segmentation Model with a Custom Dataset
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 <script async defer src="https://unpkg.com/medium-zoom-element@0/dist/medium-zoom-element.min.js"></script>
 
-<a target="_blank" href="https://colab.research.google.com/drive/1MdkavsjGHYcuGyjmsf9wmeAK3WvtYLty?usp=sharing">
+<a target="_blank" href="https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/56_fine_tune_segformer.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -27,7 +25,7 @@ Because semantic segmentation is a type of classification, the network architect
 [SegFormer](https://huggingface.co/docs/transformers/model_doc/segformer) is a model for semantic segmentation introduced by Xie et al. in 2021. It has a hierarchical Transformer encoder that doesn't use positional encodings (in contrast to ViT) and a simple multi-layer perceptron decoder. SegFormer achieves state-of-the-art performance on multiple common datasets. Let's see how our pizza delivery robot performs for sidewalk images.
 
 <figure class="image table text-center m-0 w-full">
-  <medium-zoom background="rgba(0,0,0,.7)" alt="Pizza delivery robot segmenting a scene" src="assets/56_fine_tune_segformer/pizza-scene.png"></medium-zoom>
+  <medium-zoom background="rgba(0,0,0,.7)" alt="Pizza delivery robot segmenting a scene" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/pizza-scene.png"></medium-zoom>
 </figure>
 
 Let's get started by installing the necessary dependencies. Because we're going to push our dataset and model to the Hugging Face Hub, we need to install [Git LFS](https://git-lfs.github.com/) and log in to Hugging Face.
@@ -41,7 +39,7 @@ git lfs install
 huggingface-cli login
 ```
 
-# 1. Create/choose a dataset
+## 1. Create/choose a dataset
 
 The first step in any ML project is assembling a good dataset. In order to train a semantic segmentation model, we need a dataset with semantic segmentation labels. We can either use an existing dataset from the Hugging Face Hub, such as [ADE20k](https://huggingface.co/datasets/scene_parse_150), or create our own dataset.
 
@@ -49,7 +47,7 @@ For our pizza delivery robot, we could use an existing autonomous driving datase
 
 We don't want our delivery robot to get confused, so we'll create our own semantic segmentation dataset using images captured on sidewalks. We'll show how you can label the images we captured in the next steps. If you just want to use our finished, labeled dataset, you can skip the ["Create your own dataset"](#create-your-own-dataset) section and continue from ["Use a dataset from the Hub"](#use-a-dataset-from-the-hub).
 
-## Create your own dataset
+### Create your own dataset
 
 To create your semantic segmentation dataset, you'll need two things: 
 
@@ -59,19 +57,19 @@ To create your semantic segmentation dataset, you'll need two things:
 We went ahead and captured a thousand images of sidewalks in Belgium. Collecting and labeling such a dataset can take a long time, so you can start with a smaller dataset and expand it if the model does not perform well enough.
 
 <figure class="image table text-center m-0 w-full">
-    <medium-zoom background="rgba(0,0,0,.7)" alt="Example images from the sidewalk dataset" src="assets/56_fine_tune_segformer/sidewalk-examples.png"></medium-zoom>
+    <medium-zoom background="rgba(0,0,0,.7)" alt="Example images from the sidewalk dataset" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/sidewalk-examples.png"></medium-zoom>
     <figcaption>Some examples of the raw images in the sidewalk dataset.</figcaption>
 </figure>
 
 To obtain segmentation labels, we need to indicate the classes of all the regions/objects in these images. This can be a time-consuming endeavour, but using the right tools can speed up the task significantly. For labeling, we'll use [Segments.ai](https://segments.ai?utm_source=hf&utm_medium=colab&utm_campaign=sem_seg), since it has smart labeling tools for image segmentation and an easy-to-use Python SDK.
 
-### Set up the labeling task on Segments.ai
+#### Set up the labeling task on Segments.ai
 
 First, create an account at [https://segments.ai/join](https://segments.ai/join?utm_source=hf&utm_medium=colab&utm_campaign=sem_seg). 
-Next, create a new dataset and upload your images. You can either do this from the web interface or via the Python SDK (see the [notebook](https://colab.research.google.com/drive/1BImTyBjW3KtvHGVcjGpYYFZdRGXzM3-j?usp=sharing)).
+Next, create a new dataset and upload your images. You can either do this from the web interface or via the Python SDK (see the [notebook](https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/56_fine_tune_segformer.ipynb)).
 
 
-### Label the images
+#### Label the images
 
 Now that the raw data is loaded, go to [segments.ai/home](https://segments.ai/home) and open the newly created dataset. Click "Start labeling" and create segmentation masks. You can use the ML-powered superpixel and autosegment tools to label faster.
 
@@ -81,18 +79,18 @@ Now that the raw data is loaded, go to [segments.ai/home](https://segments.ai/ho
         style="max-width: 70%; margin: auto;"
         autoplay loop autobuffer muted playsinline
     >
-      <source src="assets/56_fine_tune_segformer/sidewalk-labeling-crop.mp4" poster="assets/56_fine_tune_segformer/sidewalk-labeling-crop-poster.png" type="video/mp4">
+      <source src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/sidewalk-labeling-crop.mp4" poster="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/sidewalk-labeling-crop-poster.png" type="video/mp4">
   </video>
   <figcaption>Tip: when using the superpixel tool, scroll to change the superpixel size, and click and drag to select segments.</figcaption>
 </figure>
 
-### Push the result to the Hugging Face Hub
+#### Push the result to the Hugging Face Hub
 
 When you're done labeling, create a new dataset release containing the labeled data. You can either do this on the releases tab on Segments.ai, or programmatically through the SDK as shown in the notebook. 
 
 Note that creating the release can take a few seconds. You can check the releases tab on Segments.ai to check if your release is still being created.
 
-Now, we'll convert the release to a [Hugging Face dataset](https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset) via the Segments.ai Python SDK. If you haven't set up the Segments Python client yet, follow the instructions in the "Set up the labeling task on Segments.ai" section of the [notebook](https://colab.research.google.com/drive/1BImTyBjW3KtvHGVcjGpYYFZdRGXzM3-j#scrollTo=9T2Jr9t9y4HD). 
+Now, we'll convert the release to a [Hugging Face dataset](https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset) via the Segments.ai Python SDK. If you haven't set up the Segments Python client yet, follow the instructions in the "Set up the labeling task on Segments.ai" section of the [notebook](https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/56_fine_tune_segformer.ipynb#scrollTo=9T2Jr9t9y4HD). 
 
 *Note that the conversion can take a while, depending on the size of your dataset.*
 
@@ -149,7 +147,7 @@ hf_dataset_identifier = f"{hf_username}/{dataset_name}"
 semantic_dataset.push_to_hub(hf_dataset_identifier)
 ```
 
-## Use a dataset from the Hub
+### Use a dataset from the Hub
 
 If you don't want to create your own dataset, but found a suitable dataset for your use case on the Hugging Face Hub, you can define the identifier here. 
 
@@ -160,7 +158,7 @@ For example, you can use the full labeled sidewalk dataset. Note that you can ch
 hf_dataset_identifier = "segments/sidewalk-semantic"
 ```
 
-# 2. Load and prepare the Hugging Face dataset for training
+## 2. Load and prepare the Hugging Face dataset for training
 
 Now that we've created a new dataset and pushed it to the Hugging Face Hub, we can load the dataset in a single line.
 
@@ -192,36 +190,36 @@ repo_id = f"datasets/{hf_dataset_identifier}"
 filename = "id2label.json"
 id2label = json.load(open(hf_hub_download(repo_id=hf_dataset_identifier, filename=filename, repo_type="dataset"), "r"))
 id2label = {int(k): v for k, v in id2label.items()}
-label2id = {v: k for k, v in id2label.items()
+label2id = {v: k for k, v in id2label.items()}
 
 num_labels = len(id2label)
 ```
 
-## Feature extractor & data augmentation
+### Image processor & data augmentation
 
-A SegFormer model expects the input to be of a certain shape. To transform our training data to match the expected shape, we can use `SegFormerFeatureExtractor`. We could use the `ds.map` function to apply the feature extractor to the whole training dataset in advance, but this can take up a lot of disk space. Instead, we'll use a *transform*, which will only prepare a batch of data when that data is actually used (on-the-fly). This way, we can start training without waiting for further data preprocessing.
+A SegFormer model expects the input to be of a certain shape. To transform our training data to match the expected shape, we can use `SegFormerImageProcessor`. We could use the `ds.map` function to apply the image processor to the whole training dataset in advance, but this can take up a lot of disk space. Instead, we'll use a *transform*, which will only prepare a batch of data when that data is actually used (on-the-fly). This way, we can start training without waiting for further data preprocessing.
 
 In our transform, we'll also define some data augmentations to make our model more resilient to different lighting conditions. We'll use the [`ColorJitter`](https://pytorch.org/vision/main/generated/torchvision.transforms.ColorJitter.html) function from `torchvision` to randomly change the brightness, contrast, saturation, and hue of the images in the batch.
 
 
 ```python
 from torchvision.transforms import ColorJitter
-from transformers import SegformerFeatureExtractor
+from transformers import SegformerImageProcessor
 
-feature_extractor = SegformerFeatureExtractor()
+processor = SegformerImageProcessor()
 jitter = ColorJitter(brightness=0.25, contrast=0.25, saturation=0.25, hue=0.1) 
 
 def train_transforms(example_batch):
     images = [jitter(x) for x in example_batch['pixel_values']]
     labels = [x for x in example_batch['label']]
-    inputs = feature_extractor(images, labels)
+    inputs = processor(images, labels)
     return inputs
 
 
 def val_transforms(example_batch):
     images = [x for x in example_batch['pixel_values']]
     labels = [x for x in example_batch['label']]
-    inputs = feature_extractor(images, labels)
+    inputs = processor(images, labels)
     return inputs
 
 
@@ -230,14 +228,14 @@ train_ds.set_transform(train_transforms)
 test_ds.set_transform(val_transforms)
 ```
 
-# 3. Fine-tune a SegFormer model
+## 3. Fine-tune a SegFormer model
 
-## Load the model to fine-tune
+### Load the model to fine-tune
 
 The SegFormer authors define 5 models with increasing sizes: B0 to B5. The following chart (taken from the original paper) shows the performance of these different models on the ADE20K dataset, compared to other models.
 
 <figure class="image table text-center m-0 w-full">
-  <medium-zoom background="rgba(0,0,0,.7)" alt="SegFormer model variants compared with other segmentation models" src="assets/56_fine_tune_segformer/segformer.png"></medium-zoom>
+  <medium-zoom background="rgba(0,0,0,.7)" alt="SegFormer model variants compared with other segmentation models" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/segformer.png"></medium-zoom>
   <figcaption><a href="https://arxiv.org/abs/2105.15203">Source</a></figcaption>
 </figure>
 
@@ -256,7 +254,7 @@ model = SegformerForSemanticSegmentation.from_pretrained(
 )
 ```
 
-## Set up the Trainer
+### Set up the Trainer
 
 To fine-tune the model on our data, we'll use Hugging Face's [Trainer API](https://huggingface.co/docs/transformers/main_classes/trainer). We need to set up the training configuration and an evalutation metric to use a Trainer.
 
@@ -317,15 +315,13 @@ def compute_metrics(eval_pred):
     ).argmax(dim=1)
 
     pred_labels = logits_tensor.detach().cpu().numpy()
-    # currently using _compute instead of compute
-    # see this issue for more info: https://github.com/huggingface/evaluate/pull/328#issuecomment-1286866576
-    metrics = metric._compute(
-            predictions=pred_labels,
-            references=labels,
-            num_labels=len(id2label),
-            ignore_index=0,
-            reduce_labels=feature_extractor.reduce_labels,
-        )
+    metrics = metric.compute(
+        predictions=pred_labels,
+        references=labels,
+        num_labels=len(id2label),
+        ignore_index=0,
+        reduce_labels=processor.do_reduce_labels,
+    )
     
     # add per category metrics as individual key-value pairs
     per_category_accuracy = metrics.pop("per_category_accuracy").tolist()
@@ -359,7 +355,7 @@ Now that our trainer is set up, training is as simple as calling the `train` fun
 trainer.train()
 ```
 
-When we're done with training, we can push our fine-tuned model and the feature extractor to the Hub.
+When we're done with training, we can push our fine-tuned model and the image processor to the Hub.
 
 This will also automatically create a model card with our results. We'll supply some extra information in `kwargs` to make the model card more complete.
 
@@ -371,15 +367,15 @@ kwargs = {
     "dataset": hf_dataset_identifier,
 }
 
-feature_extractor.push_to_hub(hub_model_id)
+processor.push_to_hub(hub_model_id)
 trainer.push_to_hub(**kwargs)
 ```
 
-# 4. Inference
+## 4. Inference
 
 Now comes the exciting part, using our fine-tuned model! In this section, we'll show how you can load your model from the hub and use it for inference. 
 
-However, you can also try out your model directly on the Hugging Face Hub, thanks to the cool widgets powered by the [hosted inference API](https://api-inference.huggingface.co/docs/python/html/index.html). If you pushed your model to the Hub in the previous step, you should see an inference widget on your model page. You can add default examples to the widget by defining example image URLs in your model card. See [this model card](https://huggingface.co/segments-tobias/segformer-b0-finetuned-segments-sidewalk/blob/main/README.md) as an example.
+However, you can also try out your model directly on the Hugging Face Hub, thanks to the cool widgets powered by the [hosted inference API](https://api-inference.huggingface.co/docs/python/html/index.html). If you pushed your model to the Hub in the previous step, you should see an inference widget on your model page. You can add default examples to the widget by defining example image URLs in your model card. See [this model card](https://huggingface.co/tobiasc/segformer-b0-finetuned-segments-sidewalk/blob/main/README.md) as an example.
 
 <figure class="image table text-center m-0 w-full">
     <video 
@@ -387,18 +383,18 @@ However, you can also try out your model directly on the Hugging Face Hub, thank
         style="max-width: 70%; margin: auto;"
         autoplay loop autobuffer muted playsinline
     >
-      <source src="assets/56_fine_tune_segformer/widget.mp4" poster="assets/56_fine_tune_segformer/widget-poster.png" type="video/mp4">
+      <source src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/widget.mp4" poster="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/widget-poster.png" type="video/mp4">
   </video>
 </figure>
 
-## Use the model from the Hub
+### Use the model from the Hub
 
 We'll first load the model from the Hub using `SegformerForSemanticSegmentation.from_pretrained()`.
 
 ```python
-from transformers import SegformerFeatureExtractor, SegformerForSemanticSegmentation
+from transformers import SegformerImageProcessor, SegformerForSemanticSegmentation
 
-feature_extractor = SegformerFeatureExtractor.from_pretrained("nvidia/segformer-b0-finetuned-ade-512-512")
+processor = SegformerImageProcessor.from_pretrained("nvidia/segformer-b0-finetuned-ade-512-512")
 model = SegformerForSemanticSegmentation.from_pretrained(f"{hf_username}/{hub_model_id}")
 ```
 
@@ -411,7 +407,7 @@ gt_seg = test_ds[0]['label']
 image
 ```
 
-To segment this test image, we first need to prepare the image using the feature extractor. Then we forward it through the model.
+To segment this test image, we first need to prepare the image using the image processor. Then we forward it through the model.
 
 We also need to remember to upscale the output logits to the original image size. In order to get the actual category predictions, we just have to apply an `argmax` on the logits.
 
@@ -419,7 +415,7 @@ We also need to remember to upscale the output logits to the original image size
 ```python
 from torch import nn
 
-inputs = feature_extractor(images=image, return_tensors="pt")
+inputs = processor(images=image, return_tensors="pt")
 outputs = model(**inputs)
 logits = outputs.logits  # shape (batch_size, num_labels, height/4, width/4)
 
@@ -438,14 +434,14 @@ pred_seg = upsampled_logits.argmax(dim=1)[0]
 Now it's time to display the result. We'll display the result next to the ground-truth mask.
 
 <figure class="image table text-center m-0 w-full">
-  <medium-zoom background="rgba(1,1,1,1)" alt="SegFormer prediction vs the ground truth" src="assets/56_fine_tune_segformer/output.png"></medium-zoom>
+  <medium-zoom background="rgba(1,1,1,1)" alt="SegFormer prediction vs the ground truth" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/56_fine_tune_segformer/output.png"></medium-zoom>
 </figure>
 
 What do you think? Would you send our pizza delivery robot on the road with this segmentation information?
 
 The result might not be perfect yet, but we can always expand our dataset to make the model more robust. We can now also go train a larger SegFormer model, and see how it stacks up.
 
-# 5. Conclusion
+## 5. Conclusion
 
 That's it! You now know how to create your own image segmentation dataset and how to use it to fine-tune a semantic segmentation model.
 

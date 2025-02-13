@@ -10,14 +10,12 @@ authors:
 
 # Stable Diffusion with 🧨 Diffusers
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 <a target="_blank" href="https://colab.research.google.com/github/huggingface/notebooks/blob/main/diffusers/stable_diffusion.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-# **Stable Diffusion** 🎨 
+**Stable Diffusion** 🎨 
 *...using 🧨 Diffusers*
 
 Stable Diffusion is a text-to-image latent diffusion model created by the researchers and engineers from [CompVis](https://github.com/CompVis), [Stability AI](https://stability.ai/) and [LAION](https://laion.ai/). 
@@ -168,7 +166,7 @@ Values between `7` and `8.5` are usually good choices for Stable Diffusion.  By 
 uses a `guidance_scale` of 7.5.
 
 If you use a very large value the images might look good, but will be less diverse. 
-You can learn about the technical details of this parameter in [this section](#how-to-write-your-own-inference-pipeline-with-diffusers) of the post.
+You can learn about the technical details of this parameter in [this section](#writing-your-own-inference-pipeline) of the post.
 
 Next, let's see how you can generate several images of the same prompt at once. 
 First, we'll create an `image_grid` function to help us visualize them nicely in a grid.
@@ -271,7 +269,7 @@ Inspired by [Imagen](https://imagen.research.google/), Stable Diffusion does **n
 
 **Why is latent diffusion fast and efficient?**
 
-Since latent diffusion operates on a low dimensional space, it greatly reduces the memory and compute requirements compared to pixel-space diffusion models. For example, the autoencoder used in Stable Diffusion has a reduction factor of 8. This means that an image of shape `(3, 512, 512)` becomes `(3, 64, 64)` in latent space, which requires `8 × 8 = 64` times less memory.
+Since latent diffusion operates on a low dimensional space, it greatly reduces the memory and compute requirements compared to pixel-space diffusion models. For example, the autoencoder used in Stable Diffusion has a reduction factor of 8. This means that an image of shape `(3, 512, 512)` becomes `(4, 64, 64)` in latent space, which means the spatial compression ratio is `8 × 8 = 64`.
 
 This is why it's possible to generate `512 × 512` images so quickly, even on 16GB Colab GPUs!
 
@@ -478,3 +476,14 @@ We've gone from the basic use of Stable Diffusion using 🤗 Hugging Face Diffus
 - The [Getting Started with Diffusers](https://colab.research.google.com/github/huggingface/notebooks/blob/main/diffusers/diffusers_intro.ipynb) notebook, that gives a broader overview on Diffusion systems.
 - The [Annotated Diffusion Model](https://huggingface.co/blog/annotated-diffusion) blog post.
 - Our [code in GitHub](https://github.com/huggingface/diffusers) where we'd be more than happy if you leave a ⭐ if `diffusers` is useful to you!
+
+### Citation:
+```
+@article{patil2022stable,
+  author = {Patil, Suraj and Cuenca, Pedro and Lambert, Nathan and von Platen, Patrick},
+  title = {Stable Diffusion with 🧨 Diffusers},
+  journal = {Hugging Face Blog},
+  year = {2022},
+  note = {[https://huggingface.co/blog/rlhf](https://huggingface.co/blog/stable_diffusion)},
+}
+```

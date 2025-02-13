@@ -5,10 +5,11 @@ authors:
 - user: espejelomar
 ---
 
+> [!WARNING]
+> This guide is only suited for Sentence Transformers before v3.0. Read [Training and Finetuning Embedding Models with Sentence Transformers v3](train-sentence-transformers) for an updated guide.
+
 # Train and Fine-Tune Sentence Transformers Models
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 Check out this tutorial with the Notebook Companion:
 <a target="_blank" href="https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/95_Training_Sentence_Transformers.ipynb">

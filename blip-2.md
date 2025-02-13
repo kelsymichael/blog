@@ -8,8 +8,6 @@ authors:
 
 # Zero-shot image-to-text generation with BLIP-2
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 This guide introduces [BLIP-2](https://huggingface.co/docs/transformers/main/en/model_doc/blip-2) from Salesforce Research 
 that enables a suite of state-of-the-art visual-language models that are now available in [🤗 Transformers](https://huggingface.co/transformers). 
@@ -138,7 +136,7 @@ provide any text prompt to the model, only the preprocessed input image. Without
 generating text from the BOS (beginning-of-sequence) token thus creating a caption. 
 
 ```
-inputs = processor(image, return_tensors="pt")
+inputs = processor(image, return_tensors="pt").to(device, torch.float16)
 
 generated_ids = model.generate(**inputs, max_new_tokens=20)
 generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0].strip()

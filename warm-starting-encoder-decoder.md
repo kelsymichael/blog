@@ -7,8 +7,6 @@ authors:
 
 # Leveraging Pre-trained Language Model Checkpoints for Encoder-Decoder Models
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 <a target="_blank" href="https://colab.research.google.com/github/patrickvonplaten/notebooks/blob/master/Leveraging_Pre_trained_Checkpoints_for_Encoder_Decoder_Models.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -663,15 +661,15 @@ tasks of increasing complexity: sentence-level fusion, sentence-level
 splitting, translation, and abstractive summarization. The following
 table shows which datasets were used for each task.
 
-  |Seq2Seq Task               |Datasets                                                                Paper                                                                   |🤗datasets
-  |-------------------------- |----------------------------------------------------------------------- ----------------------------------------------------------------------- |-----------------------------------------------------------------------------------------
-  |Sentence Fusion            |DiscoFuse                                                               [Geva et al. (2019)](https://arxiv.org/abs/1902.10526)                  |[link](https://huggingface.co/nlp/viewer/?dataset=discofuse&config=discofuse-wikipedia)
-  |Sentence Splitting         |WikiSplit                                                               [Botha et al. (2018)](https://arxiv.org/abs/1808.09468)                 |\-
-  |Translation                |WMT14 EN =\> DE                                                         [Bojar et al. (2014)](http://www.aclweb.org/anthology/W/W14/W14-3302)   |[link](https://huggingface.co/nlp/viewer/?dataset=wmt14&config=de-en)
-  |WMT14 DE =\> EN            |[Bojar et al. (2014)](http://www.aclweb.org/anthology/W/W14/W14-3302)   																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=wmt14&config=de-en)   
-  |Abstractive Summarizaion   |CNN/Dailymail                                                           [Hermann et al. (2015)](http://arxiv.org/abs/1704.04368)                |[link](https://huggingface.co/nlp/viewer/?dataset=cnn_dailymail&config=3.0.0)
-  |BBC XSum                   |[Narayan et al. (2018a)](https://arxiv.org/abs/1808.08745)              																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=xsum)                 
-  |Gigaword                   |[Napoles et al. (2012)](http://dx.doi.org/10.18653/v1/D15-1044)         																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=gigaword)              
+  |Seq2Seq Task               |Datasets                                                               |Paper                                                                   |🤗datasets |
+  |-------------------------- |-----------------------------------------------------------------------|----------------------------------------------------------------------- |----------------------------------------------------------------------------------------- |
+  |Sentence Fusion            |DiscoFuse                                                              |[Geva et al. (2019)](https://arxiv.org/abs/1902.10526)                  |[link](https://huggingface.co/nlp/viewer/?dataset=discofuse&config=discofuse-wikipedia) |
+  |Sentence Splitting         |WikiSplit                                                              |[Botha et al. (2018)](https://arxiv.org/abs/1808.09468)                 |\-|
+  |Translation                |WMT14 EN =\> DE                                                        |[Bojar et al. (2014)](http://www.aclweb.org/anthology/W/W14/W14-3302)   |[link](https://huggingface.co/nlp/viewer/?dataset=wmt14&config=de-en)|
+  |WMT14 DE =\> EN            |[Bojar et al. (2014)](http://www.aclweb.org/anthology/W/W14/W14-3302)  |																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=wmt14&config=de-en)   |
+  |Abstractive Summarizaion   |CNN/Dailymail                                                          | [Hermann et al. (2015)](http://arxiv.org/abs/1704.04368)               |[link](https://huggingface.co/nlp/viewer/?dataset=cnn_dailymail&config=3.0.0)|
+  |BBC XSum                   |[Narayan et al. (2018a)](https://arxiv.org/abs/1808.08745)             |																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=xsum)                 |
+  |Gigaword                   |[Napoles et al. (2012)](http://dx.doi.org/10.18653/v1/D15-1044)        |																																				 |[link](https://huggingface.co/nlp/viewer/?dataset=gigaword)              |
 
 Depending on the task, a slightly different training regime was used.
 *E.g.* according to the size of the dataset and the specific task, the
@@ -985,7 +983,7 @@ ability of a model to learn from more and more data*. Model capacity is
 broadly measured by the number of trainable parameters - the more
 parameters, the higher the model capacity.
 
-# **Warm-starting encoder-decoder models with 🤗Transformers (Practice)**
+## **Warm-starting encoder-decoder models with 🤗Transformers (Practice)**
 
 We have explained the theory of warm-starting encoder-decoder models,
 analyzed empirical results on multiple datasets, and have derived
