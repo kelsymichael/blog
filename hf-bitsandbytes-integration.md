@@ -9,8 +9,6 @@ authors:
 
 # A Gentle Introduction to 8-bit Matrix Multiplication for transformers at scale using Hugging Face Transformers, Accelerate and bitsandbytes
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 ![thumbnail](assets/96_hf_bitsandbytes_integration/Thumbnail_blue.png)
 
@@ -291,7 +289,7 @@ Which is close enough to the original FP16 values (2 print outs up)!
 6. Now you can safely infer using your model by making sure your input is on the correct GPU and is in FP16:
 
 ```py
-input_ = torch.randn(64, dtype=torch.float16)
+input_ = torch.randn((1, 64), dtype=torch.float16)
 hidden_states = int8_model(input_.to(torch.device('cuda', 0)))
 ```
 
@@ -415,7 +413,7 @@ We've found several areas for improvement that can be worked on in the future to
 
 ### Faster inference speed for smaller models
 
-As we have seen in the [the benchmarking section](#is-it-faster-than-native-models?), we could improve the runtime speed for small model (<=6B parameters) by a factor of almost 2x. However, while the inference speed is robust for large models like BLOOM-176B there are still improvements to be had for small models. We already identified the issues and likely recover same performance as fp16, or get small speedups. You will see these changes being integrated within the next couple of weeks.
+As we have seen in the [the benchmarking section](#is-it-faster-than-native-models), we could improve the runtime speed for small model (<=6B parameters) by a factor of almost 2x. However, while the inference speed is robust for large models like BLOOM-176B there are still improvements to be had for small models. We already identified the issues and likely recover same performance as fp16, or get small speedups. You will see these changes being integrated within the next couple of weeks.
 
 ### Support for Kepler GPUs (GTX 1080 etc)
 

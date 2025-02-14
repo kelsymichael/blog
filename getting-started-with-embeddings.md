@@ -7,8 +7,6 @@ authors:
 
 # Getting Started With Embeddings
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 Check out this tutorial with the Notebook Companion:
 <a target="_blank" href="https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/80_getting_started_with_embeddings.ipynb">
@@ -39,7 +37,7 @@ We will create a small Frequently Asked Questions (FAQs) engine: receive a query
 
 But first, we need to embed our dataset (other texts use the terms encode and embed interchangeably). The Hugging Face Inference API allows us to embed a dataset using a quick POST call easily.
 
-Since the embeddings capture the semantic meaning of the questions, it is possible to compare different embeddings and see how different or similar they are. Thanks to this, you can get the most similar embedding to a query, which is equivalent to finding the most similar FAQ. Check out our [semantic search tutorial](https://huggingface.co/spaces/sentence-transformers/Sentence_Transformers_for_semantic_search) for a more detailed explanation of how this mechanism works.
+Since the embeddings capture the semantic meaning of the questions, it is possible to compare different embeddings and see how different or similar they are. Thanks to this, you can get the most similar embedding to a query, which is equivalent to finding the most similar FAQ. Check out our [semantic search tutorial](https://huggingface.co/spaces/sentence-transformers/embeddings-semantic-search) for a more detailed explanation of how this mechanism works.
 
 In a nutshell, we will:
 1. Embed Medicare's FAQs using the Inference API.

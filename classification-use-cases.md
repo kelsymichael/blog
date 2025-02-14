@@ -1,21 +1,19 @@
 ---
-title: "Leveraging Hugging Face for complex text classification use cases"
-thumbnail: /blog/assets/78_ml_director_insights/blogthumbnail.png
+title: "How Hugging Face Accelerated Development of Witty Works Writing Assistant"
+thumbnail: /blog/assets/78_ml_director_insights/witty-works.png
 authors:
 - user: juliensimon
 - user: Violette
 - user: florentgbelidji
 - user: oknerazan
+  guest: true
 - user: lsmith
+  guest: true
 ---
-<html>
-<head>
-<h1>Leveraging Hugging Face for complex text classification use cases </h1>
-<h2>The Success Story of Witty Works with the Hugging Face Expert Acceleration Program.</h2>
-<!-- {blog_metadata} -->
-<!-- {authors} -->
-</head>
-<body>
+# How Hugging Face Accelerated Development of Witty Works Writing Assistant
+
+## The Success Story of Witty Works with the Hugging Face Expert Acceleration Program.
+
 
 _If you're interested in building ML solutions faster, visit the [Expert Acceleration Program](https://huggingface.co/support?utm_source=blog-post&utm_medium=blog-post&utm_campaign=blog-post-classification-use-case) landing page and contact us [here](https://huggingface.co/support?utm_source=blog-post&utm_medium=blog-post&utm_campaign=blog-post-classification-use-case#form)!_
 
@@ -120,6 +118,4 @@ By iterating, you start learning  things immediately”
 
 🤗   If you or your team are interested in accelerating your ML roadmap with Hugging Face Experts, please visit [hf.co/support](https://huggingface.co/support?utm_source=blog-post&utm_medium=blog-post&utm_campaign=blog-post-classification-use-case) to learn more.
 
-</body>
-</html>
 
