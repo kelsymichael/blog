@@ -8,8 +8,6 @@ authors:
 
 # Deploying TensorFlow Vision Models in Hugging Face with TF Serving
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 <a target="_blank" href="https://colab.research.google.com/github/huggingface/blog/blob/main/notebooks/111_tf_serving_vision.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -39,7 +37,7 @@ server-side batching, etc.
 To get the complete working code shown throughout this post, refer to
 the Colab Notebook shown at the beginning.
 
-# Saving the Model
+## Saving the Model
 
 All TensorFlow models in 🤗 Transformers have a method named
 `save_pretrained()`. With it, you can serialize the model weights in
@@ -90,7 +88,7 @@ and width are set to 224, and the number of channels is 3. You can verify
 this by inspecting the config argument of the model (`model.config`).
 The model yields a 1000-d vector of `logits`.
 
-# Model Surgery
+## Model Surgery
 
 Usually, every ML model has certain preprocessing and postprocessing
 steps. The ViT model is no exception to this. The major preprocessing
@@ -102,23 +100,22 @@ steps include:
 
 - Resizing the image so that it has a spatial resolution of (224, 224).
 
-You can confirm these by investigating the feature extractor associated
+You can confirm these by investigating the image processor associated
 with the model:
 
 ```py
-from transformers import AutoFeatureExtractor
+from transformers import AutoImageProcessor
 
-feature_extractor = AutoFeatureExtractor.from_pretrained(ckpt)
-print(feature_extractor)
+processor = AutoImageProcessor.from_pretrained(ckpt)
+print(processor)
 ```
 
 This should print:
 
 ```bash
-ViTFeatureExtractor {
+ViTImageProcessor {
   "do_normalize": true,
   "do_resize": true,
-  "feature_extractor_type": "ViTFeatureExtractor",
   "image_mean": [
     0.5,
     0.5,
@@ -145,14 +142,14 @@ preprocessing and postprocessing steps in built. Therefore, you should
 serialize the model as a SavedModel such that the above-mentioned
 processing ops get embedded into its computation graph.
 
-## Preprocessing
+### Preprocessing
 
 For preprocessing, image normalization is one of the most essential
 components:
 
 ```py
 def normalize_img(
-    img, mean=feature_extractor.image_mean, std=feature_extractor.image_std
+    img, mean=processor.image_mean, std=processor.image_std
 ):
     # Scale to the value range of [0, 1] first and then normalize.
     img = img / 255
@@ -167,11 +164,11 @@ Transformers. The below code snippet shows all the preprocessing steps:
 
 ```py
 CONCRETE_INPUT = "pixel_values" # Which is what we investigated via the SavedModel CLI.
-SIZE = feature_extractor.size
+SIZE = processor.size["height"]
 
 
 def normalize_img(
-    img, mean=feature_extractor.image_mean, std=feature_extractor.image_std
+    img, mean=processor.image_mean, std=processor.image_std
 ):
     # Scale to the value range of [0, 1] first and then normalize.
     img = img / 255
@@ -206,7 +203,7 @@ request payload can easily spiral up depending on the resolution of the
 images being passed. This is why it is a good practice to compress them
 reliably and then prepare the request payload.
 
-## Postprocessing and Model Export
+### Postprocessing and Model Export
 
 You're now equipped with the preprocessing operations that you can inject
 into the model's existing computation graph. In this section, you'll also
@@ -293,7 +290,7 @@ confidence score and the string label.
 Provided you've already installed TF Serving (covered in the Colab
 Notebook), you're now ready to deploy this model!
 
-# Deployment with TensorFlow Serving
+## Deployment with TensorFlow Serving
 
 It just takes a single command to do this:
 
@@ -322,7 +319,7 @@ From the above command, the important parameters are:
 And voila! Within minutes, you should be up and running with a deployed
 model having two endpoints - REST and gRPC.
 
-# Querying the REST Endpoint
+## Querying the REST Endpoint
 
 Recall that you exported the model such that it accepts string inputs
 encoded with the [base64 format](https://en.wikipedia.org/wiki/Base64). So, to craft the
@@ -369,7 +366,7 @@ The REST API is -
 this always picks up the latest version of the model. But if you wanted a
 specific version you can do: `http://localhost:8501/v1/models/vit/versions/1:predict`.
 
-# Querying the gRPC Endpoint
+## Querying the gRPC Endpoint
 
 While REST is quite popular in the API world, many applications often
 benefit from gRPC. [This post](https://blog.dreamfactory.com/grpc-vs-rest-how-does-grpc-compare-with-traditional-rest-apis/)
@@ -459,7 +456,7 @@ grpc_predictions.outputs["label"].string_val, grpc_predictions.outputs[
 # ([b'Egyptian cat'], [0.8966591954231262])
 ```
 
-# Wrapping Up
+## Wrapping Up
 
 In this post, we learned how to deploy a TensorFlow vision model from
 Transformers with TF Serving. While local deployments are great for
@@ -467,7 +464,7 @@ weekend projects, we would want to be able to scale these deployments to
 serve many users. In the next series of posts, you'll see how to scale up
 these deployments with Kubernetes and Vertex AI.
 
-# Additional References
+## Additional References
 
 - [gRPC](https://grpc.io/)
 

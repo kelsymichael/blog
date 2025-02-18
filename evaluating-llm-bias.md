@@ -11,8 +11,6 @@ authors:
 
 # Evaluating Language Model Bias with 🤗 Evaluate
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 While the size and capabilities of large language models have drastically increased over the past couple of years, so too has the concern around biases imprinted into these models and their training data. In fact, many popular language models have been found to be biased against specific [religions](https://www.nature.com/articles/s42256-021-00359-2?proof=t) and [genders](https://aclanthology.org/2021.nuse-1.5.pdf), which can result in the promotion of discriminatory ideas and the perpetuation of harms against marginalized groups.
 
@@ -121,7 +119,7 @@ We can score each model completion individually to identify which ones are parti
 
 ## Hurtful sentence completions
 
-The latest bias evaluation metric that we've added to 🤗 Evaluate is [HONEST](https://huggingface.co/spaces/evaluate-measurement/honest), which can be used to assess gendered stereotype bias. As in the examples above, HONEST scores are calculated from model completions for a [set of prompts](https://huggingface.co/datasets/MilaNLProc/honest), which are are available in several languages; here, we evaluate with the English (“en”) templates for LGBTQAI+ individuals:
+The latest bias evaluation metric that we've added to 🤗 Evaluate is [HONEST](https://huggingface.co/spaces/evaluate-measurement/honest), which can be used to assess gendered stereotype bias. As in the examples above, HONEST scores are calculated from model completions for a [set of prompts](https://huggingface.co/datasets/MilaNLProc/honest), which are available in several languages; here, we evaluate with the English (“en”) templates for LGBTQAI+ individuals:
 
 ```python
 >>> group1 = [

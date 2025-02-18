@@ -7,10 +7,8 @@ authors:
 - user: nateraw
 ---
 
-<h1> CO2 Emissions and the 🤗 Hub: Leading the Charge </h1> 
+# CO2 Emissions and the 🤗 Hub: Leading the Charge  
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 ## What are CO2 Emissions and why are they important?
 
@@ -130,7 +128,7 @@ An example of this data being included at the top of the model card is shown bel
 
 ![Visual of organizing the co2_eq_emissions in a Model Card file](assets/60_carbon_emissions_on_the_hub/metadata_example.png)
 
-For more references on the metadata format for `co2_eq_emissions ` see [the hub docs](https://huggingface.co/docs/hub/models-cards-co2).
+For more references on the metadata format for `co2_eq_emissions ` see [the hub docs](https://huggingface.co/docs/hub/model-cards-co2).
 
 ### Further readings
 

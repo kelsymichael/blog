@@ -7,8 +7,6 @@ authors:
 
 # Speech Synthesis, Recognition, and More With SpeechT5
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 We’re happy to announce that SpeechT5 is now available in 🤗 Transformers, an open-source library that offers easy-to-use implementations of state-of-the-art machine learning models.
 
@@ -147,6 +145,8 @@ Your browser does not support the audio element.
 That’s it for the TTS model! The key to making this sound good is to use the right speaker embeddings.
 
 You can play with an [interactive demo](https://huggingface.co/spaces/Matthijs/speecht5-tts-demo) on Spaces.
+
+💡 Interested in learning how to **fine-tune** SpeechT5 TTS on your own dataset or language? Check out [this Colab notebook](https://colab.research.google.com/drive/1i7I5pzBcU3WDFarDnzweIj4-sVVoIUFJ) with a detailed walk-through of the process.
 
 ## Speech-to-speech for voice conversion
 

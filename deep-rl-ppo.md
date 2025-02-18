@@ -5,24 +5,12 @@ authors:
 - user: ThomasSimonini
 ---
 
-<html>
-<head>
-<style>
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-</style>
-<h1>Proximal Policy Optimization (PPO)</h1>
+
+# Proximal Policy Optimization (PPO)
 <h2>Unit 8, of the <a href="https://github.com/huggingface/deep-rl-class">Deep Reinforcement Learning Class with Hugging Face 🤗</a></h2>
 
-<!-- {authors} -->
 
-</head>
 
-<body>
 
 ⚠️ A **new updated version of this article is available here** 👉 [https://huggingface.co/deep-rl-course/unit1/introduction](https://huggingface.co/deep-rl-course/unit8/introduction)
 

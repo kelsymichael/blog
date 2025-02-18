@@ -1,6 +1,8 @@
 # The Hugging Face Blog Repository 🤗
 This is the official repository of the [Hugging Face Blog](https://hf.co/blog). 
 
+**If you are an external contributor**: If your blog post is not a collaboration post with Hugging Face, please consider creating a [community blog](https://huggingface.co/blog-explorers) instead. Community blog posts appear on our blogs main page just like the blogs in this repository.
+
 ## How to write an article? 📝
 1️⃣ Create a branch `YourName/Title`
 
@@ -29,18 +31,14 @@ authors:
 
 # Train your first Decision Transformer
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
-
 Your content here [...]
 ```
 
-The blog_metadata and authors HTML comments are meant to mark where in the file will be inserted the following UI elements:
+When published, the Hub will insert the following UI elements right after the blogpost's main header (i.e. the line that starts with a single `#`, aka. the `<h1>`):
+
 - "Published on [date]"
 - "Update on GitHub" button
 - avatars of the authors that were listed in authors.
-
-⚠️ Please keep the blog_metadata and authors comments exactly equal to those strings otherwise they won't be replaced.
 
 5️⃣ Then, you can add your content. It's markdown system so if you wrote your text on notion just control shift v to copy/paste as markdown.
 
@@ -70,3 +68,43 @@ For instance:
 
 
 ``` \\( Q(S_t, A_t) \\) ``` ➡️ $Q(S_t, A_t)$
+
+## How to Caption Figures
+
+A couple of alternatives:
+
+- Use a Markdown table [like here](https://github.com/huggingface/blog/blob/fd611f6200391b865641c4e7a38e1ea47ec4bc6c/pref-tuning.md?plain=1#L31).
+- Use HTML, [like here](https://github.com/huggingface/blog/blob/0e6ebe5ca43d6408c20eddab1f5f3205d680f3aa/watermarking.md?plain=1#L70-L73).
+
+## How to Use Highlight Boxes
+
+See an example [in this PR](https://github.com/huggingface/blog/pull/1180). This is to be used sparingly :)
+
+## Embed a Space
+
+Just add:
+
+```
+<script
+	type="module"
+	src="https://gradio.s3-us-west-2.amazonaws.com/4.36.1/gradio.js"
+></script>
+
+<gradio-app theme_mode="light" space="derek-thomas/hugging-face-blog-assistant"></gradio-app>
+```
+
+Code: [leaderboard-bigcodebench.md](leaderboard-bigcodebench.md)
+[Blog Example](https://huggingface.co/blog/leaderboard-bigcodebench#how-well-do-llms-perform-on-bigcodebench-%F0%9F%93%8A)
+
+## More Assistance
+
+You can use the [community blog editor](https://huggingface.co/new-blog) which has a preview function.
+
+Or check out this [assistant space](https://huggingface.co/spaces/derek-thomas/hugging-face-blog-assistant) 
+to help with rendering some tricky markdown blocks like:
+- Inserting caption figures with image tables
+- Tip formatting
+- Inserting clickable references
+ 
+Do give it a like if it was helpful.
+

@@ -6,12 +6,39 @@ authors:
   guest: true
 ---
 
-<h1>Visualize proteins on Hugging Face Spaces</h1>
+# Visualize proteins on Hugging Face Spaces
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 In this post we will look at how we can visualize proteins on Hugging Face Spaces.
+
+**Update May 2024**
+
+While the method described below still works, you'll likely want to save some time and use the [Molecule3D Gradio Custom Component](https://www.gradio.app/custom-components/gallery?id=simonduerr%2Fgradio_molecule3d). This component will allow users to modify the protein visualization on the fly and you can more easily set the default visualization. Simply install it using:
+
+```bash
+pip install gradio_molecule3d
+```
+
+```python
+from gradio_molecule3d import Molecule3D
+
+reps =    [
+    {
+      "model": 0,
+      "chain": "",
+      "resname": "",
+      "style": "stick",
+      "color": "whiteCarbon",
+      "residue_range": "",
+      "around": 0,
+      "byres": False,
+    }
+  ]
+
+with gr.Blocks() as demo:
+    Molecule3D(reps=reps)
+```
+
 
 ## Motivation 🤗
 
@@ -40,7 +67,7 @@ We will build a simple demo app that can accept either a 4-digit PDB code or a P
 
 <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.1.7/gradio.js"></script>
 
-<gradio-app space="simonduerr/3dmol.js"></gradio-app>
+<gradio-app theme_mode="light" space="simonduerr/3dmol.js"></gradio-app>
 
 ```python
 import gradio as gr
@@ -149,9 +176,9 @@ You can check the [source code](https://huggingface.co/spaces/simonduerr/3dmol.j
 
 For a production example, you can check the [ProteinMPNN](https://hf.space/simonduerr/ProteinMPNN) space where a user can upload a backbone, the inverse folding model ProteinMPNN predicts new optimal sequences and then one can run AlphaFold2 on all predicted sequences to verify whether they adopt the initial input backbone. Successful redesigns that qualitiatively adopt the same structure as predicted by AlphaFold2 with high pLDDT score should be tested in the lab. 
 
-<gradio-app space="simonduerr/ProteinMPNN"></gradio-app>
+<gradio-app theme_mode="light" space="simonduerr/ProteinMPNN"></gradio-app>
 
-# Issues
+## Issues
 
 If you encounter any issues with the integration of 3Dmol.js in Gradio/HF spaces, please open a discussion in [hf.space/simonduerr/3dmol.js](https://hf.space/simonduerr/3dmol.js/discussions).
 

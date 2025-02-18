@@ -1,6 +1,3 @@
-- value: analysis
-  label: analysis
-
 - value: community
   label: community
 
@@ -36,3 +33,12 @@
 
 - value: game-dev
   label: Game Development
+
+- value: rlhf
+  label: RLHF
+
+- value: leaderboard
+  label: Leaderboard
+
+- value: case-studies
+  label: Case Studies

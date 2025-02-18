@@ -7,8 +7,6 @@ authors:
 
 # Image Similarity with Hugging Face Datasets and Transformers
 
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 <a target="_blank" href="https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/image_similarity.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -45,11 +43,11 @@ To compute the embeddings from the images, we'll use a vision model that has som
 For loading the model, we leverage the [`AutoModel` class](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModel). It provides an interface for us to load any compatible model checkpoint from the Hugging Face Hub. Alongside the model, we also load the processor associated with the model for data preprocessing. 
 
 ```py
-from transformers import AutoFeatureExtractor, AutoModel
+from transformers import AutoImageProcessor, AutoModel
 
 
 model_ckpt = "nateraw/vit-base-beans"
-extractor = AutoFeatureExtractor.from_pretrained(model_ckpt)
+processor = AutoImageProcessor.from_pretrained(model_ckpt)
 model = AutoModel.from_pretrained(model_ckpt)
 ```
 
@@ -268,7 +266,7 @@ Finally, you can try out the following Space that builds a mini image similarity
 
 <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.12.0/gradio.js"></script>
 
-<gradio-app space="sayakpaul/fetch-similar-images"></gradio-app>
+<gradio-app theme_mode="light" space="sayakpaul/fetch-similar-images"></gradio-app>
 
 In this post, we ran through a quickstart for building image similarity systems. If you found this post interesting, we highly recommend building on top of the concepts we discussed here so you can get more comfortable with the inner workings.
 

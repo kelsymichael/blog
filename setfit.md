@@ -5,15 +5,13 @@ authors:
 - user: Unso
 - user: lewtun
 - user: luketheduke
-- user: dkorat
+- user: danielkorat
 - user: orenpereg
 - user: moshew
 ---
    
-<h1>SetFit: Efficient Few-Shot Learning Without Prompts</h1>
+# SetFit: Efficient Few-Shot Learning Without Prompts
     
-<!-- {blog_metadata} -->
-<!-- {authors} -->
 
 
 
